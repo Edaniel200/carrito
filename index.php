@@ -93,6 +93,51 @@
 			color: grey;
 			font-size: 1.1rem;
 		}
+		#buscador{
+
+			position: relative;
+			padding: 10px;
+
+		}
+		#buscador > div:nth-child(1){
+
+			display: flex;
+			justify-content: center;
+
+
+		}
+
+		#buscador  span{
+			margin: 0px 10px;
+			
+		}
+
+		#buscador  span > *{
+		padding: 5px;
+
+		}
+
+		#caja_resultado_buscar{
+			display: none;
+
+			position: absolute;
+			top: 40px;
+			right: 25%;
+			left: 25%;
+
+
+			padding: 10px;
+
+			background-color: #eee;
+		}
+
+		#caja_resultado_buscar > div{
+			text-align: center;
+			padding: 5px;
+
+		}
+
+
 		#product{
 
 			width: 100%;
@@ -265,6 +310,87 @@
 
 	</style>
 
+
+	<script type="text/javascript">
+
+		StartApp = () => {
+
+			let ButtonSearch = document.getElementById("buscar");
+			let seachBox = document.getElementById("caja_buscar");
+
+
+
+			ButtonSearch.addEventListener("click", defineArgement);
+
+		}
+
+		getBox = (box) => {
+
+			return box = document.getElementById(box);
+
+		}
+		
+
+
+		defineArgement = () => {
+
+			let valu = document.getElementById("caja_buscar").value;
+			let box = getBox("caja_resultado_buscar");
+			let closeBox = getBox("cerrar_resultado_buscar");
+
+
+			callDocument(valu);
+
+			box.style.display = "block";
+			closeBox.addEventListener("click", () =>{box.style.display = "none";});
+
+
+		}
+
+		 callDocument = async (valu) => {
+		 	//alert("yeah");
+
+		 	const data = new FormData();
+		 	data.append("valueTittle", valu);
+
+		 	let resProcess = await fetch("gestiones/buscador.php", {
+		 		method : "POST",
+		 		body : data
+		 	});
+
+		 	let res = await resProcess.json();
+
+
+		 	printResult(res);
+
+
+		}
+
+		printResult = (printResult) => {
+
+			let box = getBox("resultado_buscar");
+
+			let contain = "";
+
+				for(let i = 0; i < printResult.length; i++){
+					console.log(printResult[i]["ID"]);
+
+					contain += `<div class='result'>
+
+						<a href='index.php?VPU=` + printResult[i]["ID"] + `'>` + printResult[i]["NOMBRE"] + `</a>
+
+					</div>`;
+
+
+				}
+
+
+				box.innerHTML = contain;
+		}
+
+		window.addEventListener("load", StartApp);
+	</script>
+
 </head>
 <body>
 	<header>
@@ -301,6 +427,33 @@
 		</ul>
 		
 	</nav>
+	<div id="buscador">
+
+		<div>
+				
+			<span>
+				<input type="text" name="caja_buscar" id="caja_buscar">
+			</span>
+
+			<span>
+				<button id="buscar">BUSCAR</button>
+			</span>
+		</div>
+
+		<div id="caja_resultado_buscar">
+			<div>
+				<span class="fas fa-close" id="cerrar_resultado_buscar"></span>
+			</div>
+			<div id="resultado_buscar">
+
+				SIN RESULTADO
+				
+			</div>
+
+		</div>
+
+		
+	</div>
 
 	<?php 
 
