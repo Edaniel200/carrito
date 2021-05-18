@@ -35,7 +35,6 @@
 			padding: 5px 0px;
 			background-color: white;
 
-			border-bottom: solid 2px #ccc; 
 		}
 		header h1{
 			font-size: 1.6rem;
@@ -53,61 +52,148 @@
 			color: grey;
 
 		}
-		#sessionMessage{
-			display: flex;
-			background-color: #9d9;
-			color: #595;
 
-			padding: 10px 0px;
+/*---------------------------------------------- MENSAJES DEVUELTOS -------------------------*/
+
+		.conf{
+
+			color: white;
+			text-align: center;
+			background-color: #222;
+			
+			padding: 5px 0px;
+
 		}
+		#sessionMessage{
+
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			flex-wrap: wrap;
+
+			color: white;
+			text-align: center;
+			background-color: #c55;
+			
+			padding: 10px 0px;
+
+
+		}
+
 		#sessionMessage > p{
+
 			padding: 0px 10px;
+			color: #fbb;
 		}
 		#sessionMessage button{
-			padding: 3px;
-			background-color: #595;
-			color: white;
-			border:solid 1px #7b7;
+			padding: 5px;
+			background-color: #722;
+			color: #fbb;
+			border:solid 1px #700;
 		}
+
+/*--------------------------------- NAVEGACION -------------------*/
+
 		nav{
 			padding: 20px 0px;
 		}
-
 		nav > ul{
 
 			display: flex;
 			justify-content: center;
 			align-items: center;
+			overflow-x: auto;
+			padding-bottom: 2px;
+
+		}
+		nav > ul::-webkit-scrollbar{
+
+			height: 2px;
+
+
+		}
+		nav > ul::-webkit-scrollbar-thumb{
+
+			background-color: #ccc;
+
 
 		}
 
 		li{
 			list-style-type: none;
-			padding: 0px 5px;
-			background-color: white;
-			margin: 0px 0px 0px 10px;
+			background-color: #75f;
+
+			width: 120px;
+			min-width: 100px;
+
+
+			padding: 5px;
 			border-radius: 5px;
-			border: solid 1px grey;
+			border: solid 1px #75f;
+			margin: 0px 0px 0px 10px;
+
+			text-align: center;
 		}
-		nav > ul  a{
-			color: grey;
-			font-size: 1.1rem;
+
+
+		li a{
+
+			color: white;
 		}
+
+		li:hover{
+			background-color: white;
+
+			border: solid 1px #75f;
+			
+		}
+		li:hover a{
+
+			color: #333;
+
+		}
+
+
+
+
+/*------------------------------------------- BUSCADOR ------------------------*/
+
 		#buscador{
-
 			position: relative;
-			padding: 10px;
+			padding: 10px 0px;
 
 		}
+
 		#buscador > div:nth-child(1){
 
 			display: flex;
 			justify-content: center;
+			align-items: center;
+
+
+		}
+
+		#buscador > div:nth-child(1) > span > input{
+
+			width: 300px;
+			padding: 5px;
+
+		}
+		#buscador > div:nth-child(1) > span > button{
+
+			width: 100px;
+			padding: 5px;
+
+
+			color: white;
+			border:solid 1px #555;
+			background-color: #333;
 
 
 		}
 
 		#buscador  span{
+
 			margin: 0px 10px;
 			
 		}
@@ -118,24 +204,41 @@
 		}
 
 		#caja_resultado_buscar{
+			
 			display: none;
 
-			position: absolute;
-			top: 40px;
-			right: 25%;
-			left: 25%;
-
-
-			padding: 10px;
-
-			background-color: #eee;
 		}
 
 		#caja_resultado_buscar > div{
 			text-align: center;
-			padding: 5px;
+			padding: 10px 0px;
+
+
 
 		}
+
+		#caja_resultado_buscar > div > div{
+			display: inline-block;
+
+			padding: 10px 0px;
+		}
+		#caja_resultado_buscar > div a{
+			text-align: center;
+			padding: 5px;
+			margin: 0px 5px;
+			color: white;
+			background-color: #75f;
+
+			border-radius: 5px;
+			box-shadow: 1px 1px 1px 1px #aaa;
+
+
+		}
+
+
+		
+
+/*----------------------------------- PRODUCTOS -----------------------*/
 
 
 		#product{
@@ -214,12 +317,6 @@
 			padding: 10px;
 			color: #9dd;
 		}
-		.conf{
-			background-color: #5a5;
-			padding: 5px 0px;
-			text-align: center;
-			color: white;
-		}
 
 		@media(max-width: 768px){
 
@@ -257,6 +354,9 @@
 				font-size: 0.9rem;
 			}
 
+
+
+
 			.products > div  img{
 				width: 150px;
 				height: 130px;
@@ -267,6 +367,22 @@
 			#tramite  h3{
 				font-size: 0.85rem;
 			}
+
+
+	/*------------------------------------------- BUSCADOR ------------------------*/
+
+
+			#buscador > div:nth-child(1) > span > input{
+
+				width: 200px;
+
+			}
+			#buscador > div:nth-child(1) > span > button{
+
+				width: 80px;
+
+			}
+			
 
 
 		}
@@ -416,44 +532,6 @@
 
 		 ?>
 	</header>
-	<nav id="categorias">
-		<ul>
-			<?php 
-
-				echo $categorias_nav;
-
-
-			 ?>
-		</ul>
-		
-	</nav>
-	<div id="buscador">
-
-		<div>
-				
-			<span>
-				<input type="text" name="caja_buscar" id="caja_buscar">
-			</span>
-
-			<span>
-				<button id="buscar">BUSCAR</button>
-			</span>
-		</div>
-
-		<div id="caja_resultado_buscar">
-			<div>
-				<span class="fas fa-close" id="cerrar_resultado_buscar"></span>
-			</div>
-			<div id="resultado_buscar">
-
-				SIN RESULTADO
-				
-			</div>
-
-		</div>
-
-		
-	</div>
 
 	<?php 
 
@@ -477,6 +555,49 @@
 		
 
 	 ?>
+	<nav id="categorias">
+		<ul>
+			<?php 
+
+				echo $categorias_nav;
+
+
+			 ?>
+		</ul>
+		
+	</nav>
+
+
+	 <div id="buscador">
+
+		<div>
+				
+			<span>
+				<input type="text" name="caja_buscar" id="caja_buscar">
+			</span>
+
+			<span>
+				<button id="buscar" class="fas fa-search"></button>
+			</span>
+		</div>
+
+		<div id="caja_resultado_buscar">
+
+			<div>
+				<span class="fas fa-close" id="cerrar_resultado_buscar"></span>
+			</div>
+
+			<div id="resultado_buscar">
+
+				SIN RESULTADO
+				
+			</div>
+
+		</div>
+
+		
+	</div>
+
 
 	 <div id="product">
 
