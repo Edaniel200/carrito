@@ -36,6 +36,9 @@
 			background-color: white;
 
 		}
+		#menu{
+			display: none;
+		}
 		header h1{
 			font-size: 1.6rem;
 			font-style: italic;
@@ -93,10 +96,24 @@
 		}
 
 /*--------------------------------- NAVEGACION -------------------*/
+	@media(max-width: 2000px){
 
-		nav{
-			padding: 20px 0px;
-		}
+			nav{
+				padding: 20px 0px;
+				transition: all 1s ease 0s;
+				display: block;
+			}
+
+			@keyframes categorias{
+
+
+				50%{
+					display: block;
+				}
+
+			}
+
+		
 		nav > ul{
 
 			display: flex;
@@ -152,6 +169,7 @@
 			color: #333;
 
 		}
+	}
 
 
 
@@ -320,6 +338,65 @@
 
 		@media(max-width: 768px){
 
+			#menu{
+				display: block;
+			}
+			nav{
+
+				display: none;
+
+				padding: 10px;
+				position: fixed;
+				width: 250px;
+
+				background-color: white;
+
+				z-index: 1000;
+				box-shadow: 1px 2px 1px 1px #bbb;
+
+				border-top: solid 1px #bbb; 
+
+			}
+			nav > ul{
+				width: 100%;
+				flex-direction: column;
+				justify-content: flex-start;
+				align-items: flex-start;
+
+			}
+			li{
+				background-color: unset;
+				width: 200px;
+
+				padding: 5px;
+				border:none;
+				border-radius: 0px;
+				border-bottom: solid 1px #999; 
+
+				margin: 0px 0px 0px 10px;
+
+				text-align: left;
+			}
+
+			li a{
+
+				color: #444;
+			}
+
+			li:hover{
+				background-color: white;
+				border:none;
+				border-bottom: solid 1px #000;
+				
+			}
+			li:hover a{
+
+				color: #333;
+
+			}
+
+
+
 
 			header h1{
 				font-size: 1.3rem;
@@ -433,14 +510,29 @@
 
 			let ButtonSearch = document.getElementById("buscar");
 			let seachBox = document.getElementById("caja_buscar");
+			let menu = document.getElementById("menu");
 
 
 
-			ButtonSearch.addEventListener("click", defineArgement);
+			ButtonSearch.addEventListener("click", () => {
+
+				let valu = document.getElementById("caja_buscar").value;
+
+				valu != ""?defineArgement():alert("Inserte Algo");
+
+			});
+
+			menu.addEventListener("click", () => {
+
+			let categorias_nav = document.getElementById("categorias");
+
+				categorias_nav.style.display != "block"?categorias_nav.style.display = "block":categorias_nav.style.display = "none";
+
+			});
 
 		}
 
-		getBox = (box) => {
+		getBox = box => {
 
 			return box = document.getElementById(box);
 
@@ -450,7 +542,6 @@
 
 		defineArgement = () => {
 
-			let valu = document.getElementById("caja_buscar").value;
 			let box = getBox("caja_resultado_buscar");
 			let closeBox = getBox("cerrar_resultado_buscar");
 
@@ -482,7 +573,7 @@
 
 		}
 
-		printResult = (printResult) => {
+		printResult = printResult => {
 
 			let box = getBox("resultado_buscar");
 
@@ -510,14 +601,14 @@
 </head>
 <body>
 	<header>
+		<div id="menu">
+			<span class="fas fa-align-left"></span>
+		</div>
 		<div>
-			<h1>CARRITO</h1>
+			<h1>STORE</h1>
 		</div>
 		<div>
 			<a href="index.php?carrito"><i style="color: #000;" class="fas fa-shopping-cart"></i></a>
-		</div>
-		<div>
-			<a href="index.php" class="fas fa-home"> Inicio</a>
 		</div>
 		<?php 
 
@@ -532,6 +623,19 @@
 
 		 ?>
 	</header>
+
+	<nav id="categorias" style="">
+		<ul>
+			<li><a href="index.php" class=""> Inicio</a></li>
+			<?php 
+
+				echo $categorias_nav;
+
+			 ?>
+		</ul>
+		
+	</nav>
+
 
 	<?php 
 
@@ -555,17 +659,6 @@
 		
 
 	 ?>
-	<nav id="categorias">
-		<ul>
-			<?php 
-
-				echo $categorias_nav;
-
-
-			 ?>
-		</ul>
-		
-	</nav>
 
 
 	 <div id="buscador">
