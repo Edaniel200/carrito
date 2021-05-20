@@ -666,7 +666,7 @@
 		<div>
 				
 			<span>
-				<input type="text" name="caja_buscar" id="caja_buscar">
+				<input type="text" name="caja_buscar" id="caja_buscar" placeholder="por nombre">
 			</span>
 
 			<span>
