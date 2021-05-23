@@ -3,7 +3,7 @@
 
 	require_once("../db/cnx.php");
 
-	$sql = "SELECT * FROM productos";
+	$sql = "SELECT * FROM productos WHERE ID_VENDEDOR = ". $_GET["id"];
 
 
 	$do_sql = $CNX->query($sql);

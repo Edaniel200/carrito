@@ -37,7 +37,7 @@
 		include("../gestiones_db/conexion.php");
 
 
-		$sql = "SELECT CONTRASENA FROM " . $data["tabla"] . " WHERE USERS = :US";
+		$sql = "SELECT CONTRASENA, ID FROM " . $data["tabla"] . " WHERE USERS = :US";
 
 		echo $sql;
 
@@ -49,25 +49,46 @@
 		if($preparacion->rowCount() > 0){
 			$esta = false;
 
-			$registros = $preparacion->fetch(PDO::FETCH_ASSOC);
-			foreach ($registros as $value) {
 
-				if(password_verify($pass, $value)){
+			while($registros = $preparacion->fetch(PDO::FETCH_ASSOC)){
+
+				//echo $registros["ID"];
+
+				if(password_verify($pass, $registros["CONTRASENA"])){
 
 					$esta = true;
+
+					$id = $registros["ID"];
+
+
+
 				}
+
 			}
 
 
 			if($esta){
 
-				$_SESSION["carUser"] = true;
-				setcookie("US", $us, time() + 30 * 24 * 60 * 60, "../../");
-				setcookie("PASS", $pass, time() + 30 * 24 * 60 * 60, "../../");
-				setcookie("TAB", $data["tab"], time() + 30 * 24 * 60 * 60, "../../");
+
+
+				if( $data["tab"] == 1){
+
+
+					$_SESSION["carUser"] = true;
+					setcookie("US", $us, time() + 30 * 24 * 60 * 60, "../../");
+					setcookie("PASS", $pass, time() + 30 * 24 * 60 * 60, "../../");
+					setcookie("TAB", $data["tab"], time() + 30 * 24 * 60 * 60, "../../");
+
+
+
+				}else{
+
+					$_SESSION["carSeller"] = true;
+				}
 
 
 				$_SESSION["US"] = $us;
+				$_SESSION["USFK"] = $id;
 
 				header("Location:" . $data["location"]);
 
@@ -110,7 +131,7 @@
 			}else{
 
 				$tabla = "vendedores_carrito";
-				$location = "../gestion_productos/";
+				$location = "../gestion_productos/gestions/gestions.php";
 				$tab = 2;
 
 			}

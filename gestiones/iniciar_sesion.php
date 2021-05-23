@@ -9,6 +9,11 @@
 		header("Location:procesar_inicio_sesion.php");
 
 	}
+	if(isset($_SESSION["carSeller"])){
+
+		header("Location: ../gestion_productos/gestions/gestions.php");
+
+	}
 
 
 	isset($_SESSION["email_tmp"])?$email_tmp = $_SESSION["email_tmp"]:$email_tmp = "";
@@ -225,7 +230,7 @@
 			<div>
 					
 				<div>
-					<h2>Inicar Sesi&oacuten Comprador</h2>
+					<h2>Inicar Sesi&oacuten </h2>
 				</div>
 
 				<form method="POST" action="procesar_inicio_sesion.php">
@@ -262,7 +267,6 @@
 			 	<a href="crear_cuenta.php" class="fas fa-user"> Crear Cuenta</a>
 
 
-			 	<a href="../" class="fab fa-product-hunt"> Iniciar Sesión Vendedor</a>
 			 	
 
 			 </div>

@@ -30,18 +30,18 @@
 			if($_POST["opcion_cuenta"] == 1){
 
 				$tabla = "usuarios_carrito";
-				$location = "iniciar_sesion.php";
 
 			}else{
 
 				$tabla = "vendedores_carrito";
-				$location = "iniciar_sesion_vendedor.php";
 
 			}
 
+			$location = "iniciar_sesion.php";
 
 
-			$insertar_usuario = new INSERT($CNX, $datos, "INSERT INTO usuarios_carrito(NOMBRE, APELLIDOS, DIRECCION, CONTRASENA, USERS) VALUES(:NOM, :APE, :DIR, :CONTRA, :US )");
+
+			$insertar_usuario = new INSERT($CNX, $datos, "INSERT INTO " . $tabla . "(NOMBRE, APELLIDOS, DIRECCION, CONTRASENA, USERS) VALUES(:NOM, :APE, :DIR, :CONTRA, :US )");
 
 			$insertar_usuario->executeInsert();
 			echo $insertar_usuario->getAffected();

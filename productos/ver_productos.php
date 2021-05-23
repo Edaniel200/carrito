@@ -21,17 +21,18 @@
 	if(isset($_GET["VPU"])){
 
 
-		$ver = new SELECT_QUERY($CNX, $_GET["VPU"], "SELECT * FROM productos WHERE ID = :ID");
+		$ver = new SELECT_QUERY($CNX, $_GET["VPU"], "SELECT productos.NOMBRE as NOMBRE_PRODUCTO, productos.PRECIO AS PRECIO, productos.DIRECCION_IMAGEN AS DIRECCION_IMAGEN, productos.DESCRIPCION,productos.ID AS ID, vendedores_carrito.NOMBRE AS VENDEDOR FROM productos INNER JOIN vendedores_carrito on productos.ID_VENDEDOR = vendedores_carrito.ID WHERE productos.ID = :ID");
 
 		$ver->executeById();
 		$record = $ver->getRecords();
 		
 
-			$contenido = "<div class='products'> 
+			$contenido = "<div class='vpu_products'> 
 
-				<p>" . $record[0]["NOMBRE"] . "<p> 
-				<div><img src='".$record[0]["DIRECCION_IMAGEN"]."'></div> 
-				<p>".$record[0]["DESCRIPCION"]."</p> <p>".$record[0]["PRECIO"]."</p>
+				<p class='nombre'>" . $record[0]["NOMBRE_PRODUCTO"] . "<p> 
+				<div id='content_img'><img src='".$record[0]["DIRECCION_IMAGEN"]."'></div> 	
+				<div id='content_img'><p> Vendedor: " . $record[0]["VENDEDOR"] . "</p></div> 
+				<p class='descripcion'>Descripción: ".$record[0]["DESCRIPCION"]."</p> <p>Precio: ".$record[0]["PRECIO"]."€</p>
 				<p><a href='index.php?IPC&ID=".$record[0]["ID"]."'><button>Añadir a cesta</button></a></p>
 
 			<div>" ;
@@ -116,7 +117,12 @@
 			$contenido .= "<div class='products'>
 
 
-					<div><a href='index.php?VPU=".$record_p_c[$i]['ID']."'><img src='".$record_p_c[$i]["DIRECCION_IMAGEN"]."'></a></div>
+					<div>
+						<a href='index.php?VPU=".$record_p_c[$i]['ID']."'>
+
+							<img src='".$record_p_c[$i]["DIRECCION_IMAGEN"]."' alt='" . $record_p_c[$i]["NOMBRE"] . "' title='" . $record_p_c[$i]["NOMBRE"] . "'>
+						</a>
+					</div>
 
 						<p>" . $record_p_c[$i]['NOMBRE'] . "</p>
 
@@ -146,7 +152,7 @@
 			$contenido .= "<div class='products'>
 
 					<div><a href='index.php?VPU=".$record_p[$i]['ID']."'><img src='".$record_p[$i]["DIRECCION_IMAGEN"]."'></a></div>
-					<p>" . $record_p[$i]['NOMBRE'] . "</p>
+					<p class='nombre'>" . $record_p[$i]['NOMBRE'] . " " . $record_p[$i]['PRECIO'] .  "€</p>
 
 
 				</div>";

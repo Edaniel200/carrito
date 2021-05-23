@@ -8,9 +8,12 @@
 		$ver_carrito = new SELECT_QUERY($CNX, 0, "SELECT * FROM productos WHERE ID != :ID");
 		$ver_carrito->executeById();
 		$todos_p = $ver_carrito->getRecords();
+
 		$contenido = "";
 		$total_pago = 0;
 		$datos = array();
+
+
 
 		for($i = 0; $i < count($todos_p); $i++){
 
@@ -25,14 +28,19 @@
 
 					$total_pago += $todos_p[$i]["PRECIO"] * $cookie[$j]->CANTIDAD;
 
-					$contenido .= "<div class='products'> 
+					$contenido .= "<div class='products_carrito'> 
+						<div>
+							<p>" . $todos_p[$i]["NOMBRE"] . "</p> 
+							<img src='".$todos_p[$i]["DIRECCION_IMAGEN"]."'>
+						</div> 
 
-						<p>" . $todos_p[$i]["NOMBRE"] . "</p> 
-						<div><img src='".$todos_p[$i]["DIRECCION_IMAGEN"]."'></div> 
-						<p>".$todos_p[$i]["DESCRIPCION"]."</p> <div class='precioCantidad'> <span>Precio:	".$todos_p[$i]["PRECIO"]." €</span>
-						<span>Cantidad:	".$cookie[$j]->CANTIDAD."</span></div>
-						<p><a href='index.php?EP&ID=".$todos_p[$i]["ID"]."'><button>Elimiar</button></a></p>
+						<div>
 
+							<p>Precio:	".$todos_p[$i]["PRECIO"]." €</p>
+							<p>Cantidad:	".$cookie[$j]->CANTIDAD."</p>
+							<p><a href='index.php?EP&ID=".$todos_p[$i]["ID"]."'><button>Elimiar</button></a></p>
+
+						</div>
 					</div>";
 				}
 

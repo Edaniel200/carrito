@@ -1,4 +1,5 @@
 	<?php 
+		session_start();
 		require_once("../db/cnx.php");
 
 		$nombre_imagen = $_FILES['imagen']['name'];
@@ -13,7 +14,7 @@
 
 
 
-			$sql = "INSERT INTO productos (NOMBRE, DESCRIPCION, PRECIO, DIRECCION_IMAGEN, CATEGORIA) VALUES(?,?,?,?,?)";
+			$sql = "INSERT INTO productos (NOMBRE, DESCRIPCION, PRECIO, DIRECCION_IMAGEN, CATEGORIA, ID_VENDEDOR) VALUES(?,?,?,?,?,?)";
 
 			$tipo_imagen = $_FILES["imagen"]["type"];
 			$temp_imagen = $_FILES["imagen"]["tmp_name"];
@@ -24,7 +25,7 @@
 			$preper = $CNX->prepare($sql);
 
 
-			$ok = $preper->bind_param("ssiss", $nombre_p, $descripcion_p, $precio_p, $dir_destino, $categoria_p);
+			$ok = $preper->bind_param("ssissi", $nombre_p, $descripcion_p, $precio_p, $dir_destino, $categoria_p, $_SESSION["USFK"]);
 			$ok = $preper->execute();
 
 			if($ok){

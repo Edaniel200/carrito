@@ -1,3 +1,9 @@
+<?php 
+	session_start();
+	//echo $_SESSION["USFK"];
+
+
+ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -100,6 +106,7 @@
 
 	<nav>
 		<li><a href="../procesos/formulario_agregar.php">Agregar Producto</a></li>
+		<li><a href="../../gestiones/cerrar_sesion.php">Cerrar Sesion</a></li>
 	</nav>
 	<div>
 		<?php 
@@ -116,12 +123,13 @@
 
 		<?php 
 
-			$resProcess = file_get_contents("http://localhost/carrito/gestion_productos/procesos/peticion_productos.php");
+			$resProcess = file_get_contents("http://localhost/carrito/gestion_productos/procesos/peticion_productos.php?id=" . $_SESSION["USFK"]);
 			$res = json_decode($resProcess);
 
 			//print_r($res);
 
 			foreach ($res as $key => $value) {
+
 				echo "<div>";
 
 				echo "<div> <span>" . $value->NOMBRE . "</span> Precio: ". $value->PRECIO ."€ </div>";	

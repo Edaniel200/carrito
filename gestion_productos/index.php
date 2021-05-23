@@ -9,24 +9,7 @@
 </head>
 <body>
 	<section>
-
-		<form method="POST" action="procesos/iniciar_sesion_gestion.php">
-			<div>
-				<input type="text" name="usuario" placeholder="Código">
-			</div>
-			<div>
-				<input type="password" name="contrasena" placeholder="Contrasena">
-			</div>
-			<div>
-				<button type="submit"> Enviar </button>
-			</div>
-			
-		</form>
-
-		<div>
-			<p>Administraci&oacuten de productos</p>
-		</div>
-
+		
 	</section>
 </body>
 </html>

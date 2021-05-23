@@ -12,15 +12,18 @@
 	<meta name="keywords" content="carrito, compras, pedido">
 	<meta name="robot" content="index">
 	<meta http-equiv="cache-control" content="no-control">
-	<meta name="viewport" content="width=device-width; initial-scale=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
 
 	<script src="https://kit.fontawesome.com/845f067532.js" crossorigin="anonymous"></script>
 
 	
 
 	<style type="text/css">
-		
+	@media(max-width: 2000px){	
+
+
 		*{
 			padding: 0px;
 			margin: 0px;
@@ -29,12 +32,15 @@
 		}
 		header{
 			display: flex;
+			position: sticky;
+			top: 0px;
 
 			justify-content: space-around;
 			align-items: center;
 			padding: 5px 0px;
 			background-color: white;
 
+			box-shadow: 1px 1px 1px 1px #bbb;
 		}
 		#menu{
 			display: none;
@@ -67,6 +73,7 @@
 			padding: 5px 0px;
 
 		}
+
 		#sessionMessage{
 
 			display: flex;
@@ -96,24 +103,15 @@
 		}
 
 /*--------------------------------- NAVEGACION -------------------*/
-	@media(max-width: 2000px){
 
-			nav{
-				padding: 20px 0px;
-				transition: all 1s ease 0s;
-				display: block;
-			}
+		nav{
+			display: block;
+			padding: 20px 0px;
 
-			@keyframes categorias{
+			
+		}
 
-
-				50%{
-					display: block;
-				}
-
-			}
-
-		
+	
 		nav > ul{
 
 			display: flex;
@@ -169,7 +167,7 @@
 			color: #333;
 
 		}
-	}
+	
 
 
 
@@ -272,45 +270,71 @@
 		}
 
 		.products{
+			width: 200px;
 		
 			padding: 10px;
 
-			border-bottom: solid 1px grey;
+			border-bottom: solid 1px #aaa;
 			margin: 5px;
 
 
 		}
-		.products > p{
+		.products > p , .vpu_products > p{
 			padding: 5px 0px;
 			text-align: center;
 
 		}
+		.nombre{
 
-		.products > div{
+			font-weight: bold;
+			padding:15px 0px;
+		}
+
+		.descripcion{
+			font-weight: normal;
+			padding: 15px 0px;
+		}
+
+		.products > div , .vpu_products > div{
 			width: 100%;
+			padding: 15px 0px;
 
 		}
 
 		.products > div  img{
+			width: 100%;
+			height: 150px;
+
+		}
+
+
+		.vpu_products{
+
+			width: 500px;
+
+		}
+
+		.vpu_products > div  {
+			text-align: center;
+
+		}
+		.vpu_products > div > img  {
 			width: 250px;
 			height: 200px;
 
-
 		}
 
-		.products button{
-			padding: 3px;
-			border:solid 1px #555;
-			background-color: #ccf;
-			color: #559;
 
-		}
-		.precioCantidad{
+
+		.products button , .vpu_products button {
+			width: 200px;
 			padding: 5px 0px;
-			display: flex;
-			justify-content: space-around;
+			border:solid 1px #555;
 			background-color: black;
 			color: white;
+
+			border-radius: 5px;
+
 		}
 		#tramite{
 			display: flex;
@@ -336,6 +360,53 @@
 			color: #9dd;
 		}
 
+
+
+
+		.products_carrito{
+
+			width: 400px;
+			display: flex;
+			align-items: center;
+			padding: 10px;
+			border:solid 1px #ccc;
+			border-radius: 5px;
+
+
+		}
+		.products_carrito > div{
+
+			flex: 1;
+			background-color: unset;
+
+		}
+		.products_carrito > div:nth-child(1) > img{
+			width: 100%;
+
+		}
+		.products_carrito > div:nth-child(1) > p{
+			text-align: center;
+			padding: 5px 0px;
+			font-weight: bold;
+		}
+		.products_carrito > div:nth-child(2) > p{
+			text-align: center;
+			padding: 5px 0px;
+			color: #444;
+		}
+		.products_carrito > div:nth-child(2) button{
+			padding: 5px;
+			width: 100px;
+			background-color: black;
+			color: white;
+			border:solid 1px #444;
+		}
+
+	}
+
+
+	
+
 		@media(max-width: 768px){
 
 			#menu{
@@ -343,8 +414,8 @@
 			}
 			nav{
 
+				animation: none;
 				display: none;
-
 				padding: 10px;
 				position: fixed;
 				width: 250px;
@@ -406,12 +477,33 @@
 				font-size: 1.1rem;
 			}
 
+			.products{
+
+				width: 170px;
+
+			}
+
 			.products > div  img{
-				width: 200px;
-				height: 160px;
+			
+				height: 130px;
 
 
 			}
+
+			.vpu_products{
+
+				width: 400px;
+
+			}
+
+			.vpu_products > div > img  {
+				width: 225px;
+				height: 175px;
+
+			}
+
+
+
 
 			#tramite  h3{
 				font-size: 1rem;
@@ -431,19 +523,65 @@
 				font-size: 0.9rem;
 			}
 
+			#sessionMessage > p{
+				font-size: 0.9rem;
+				padding: 0px 3px;
+			}
 
 
+			.products{
+
+				width: 140px;
+
+			}
 
 			.products > div  img{
-				width: 150px;
-				height: 130px;
+				
+				height: 100px;
 
 
 			}
+			.nombre{
+				font-size: 0.9rem;
+			}
+
+			.descripcion{
+				font-size: 0.9rem;
+			}
+
+			.vpu_products{
+
+				width: 300px;
+
+			}
+
+			.vpu_products > div > img  {
+				width: 200px;
+				height: 150px;
+
+			}
+
+
+
 
 			#tramite  h3{
 				font-size: 0.85rem;
 			}
+
+
+
+			.products_carrito{
+
+				width: 300px;
+
+			}
+			.products_carrito > div:nth-child(1) > p{
+				font-size: 0.85rem;
+			}
+			.products_carrito > div:nth-child(2) > p{
+				font-size: 0.9rem;
+			}
+
 
 
 	/*------------------------------------------- BUSCADOR ------------------------*/
@@ -464,35 +602,67 @@
 
 		}
 
-		@media(max-width: 410px){
-
+		@media(max-width: 420px){
+			header{
+				padding: 15px 0px;
+			}
 
 			header h1{
-				font-size: 1rem;
+				font-size: 1.1rem;
 			}
 
 			header i{
-				font-size: 0.85rem;
+				font-size: 0.9rem;
 			}
 
-			.products > div  img{
-				width: 150px;
-				height: 110px;
 
+
+			.vpu_products .nombre{
+				font-size: 1.2rem;
+			}
+
+			.vpu_products .descripcion{
+				font-size: 1rem;
+			}
+
+			.vpu_products{
+
+				width: 300px;
 
 			}
+
+			.vpu_products > div > img  {
+				width: 200px;
+				height: 150px;
+
+			}
+
+			.vpu_products button{
+
+				padding: 5px 0px;
+
+			}
+
+
+
+
 
 			#tramite  h3{
 				font-size: 0.8rem;
 			}
 
-			.products{
-			
-				padding: 0px;
+			#buscador > div:nth-child(1) > span > input{
 
-
+				width: 170px;
 
 			}
+			#buscador > div:nth-child(1) > span > button{
+
+				width: 50px;
+
+			}
+			
+
 
 
 		}
@@ -508,9 +678,12 @@
 
 		StartApp = () => {
 
+
+
+
+
 			let ButtonSearch = document.getElementById("buscar");
 			let seachBox = document.getElementById("caja_buscar");
-			let menu = document.getElementById("menu");
 
 
 
@@ -518,38 +691,42 @@
 
 				let valu = document.getElementById("caja_buscar").value;
 
-				valu != ""?defineArgement():alert("Inserte Algo");
+				valu != ""?defineArgement(valu):alert("Inserte Algo");
 
 			});
 
-			menu.addEventListener("click", () => {
 
-			let categorias_nav = document.getElementById("categorias");
+			$("#menu").click(function(){
 
-				categorias_nav.style.display != "block"?categorias_nav.style.display = "block":categorias_nav.style.display = "none";
+				let categorias_nav = document.getElementById("categorias");
+
+				categorias_nav.style.display != "block"?$("#categorias").show(300):$("#categorias").hide(150);
+
 
 			});
 
 		}
 
-		getBox = box => {
+		settingApp = () => {
 
-			return box = document.getElementById(box);
+			if(window.innerWidth > 768){
 
+				$("#categorias").show(100);
+
+			}
 		}
-		
 
 
-		defineArgement = () => {
+		defineArgement = (valu) => {
 
-			let box = getBox("caja_resultado_buscar");
-			let closeBox = getBox("cerrar_resultado_buscar");
+			let box = document.getElementById("caja_resultado_buscar");
+			let closeBox = document.getElementById("cerrar_resultado_buscar");
 
 
 			callDocument(valu);
 
 			box.style.display = "block";
-			closeBox.addEventListener("click", () =>{box.style.display = "none";});
+			closeBox.addEventListener("click", () =>{ box.style.display = "none"; });
 
 
 		}
@@ -567,7 +744,6 @@
 
 		 	let res = await resProcess.json();
 
-
 		 	printResult(res);
 
 
@@ -575,7 +751,7 @@
 
 		printResult = printResult => {
 
-			let box = getBox("resultado_buscar");
+			let box = document.getElementById("resultado_buscar");
 
 			let contain = "";
 
@@ -592,6 +768,7 @@
 				}
 
 
+
 				box.innerHTML = contain;
 		}
 
@@ -599,10 +776,10 @@
 	</script>
 
 </head>
-<body>
+<body onresize="settingApp();">
 	<header>
 		<div id="menu">
-			<span class="fas fa-align-left"></span>
+			<span class="fas fa-align-left" ></span>
 		</div>
 		<div>
 			<h1>STORE</h1>
@@ -624,7 +801,7 @@
 		 ?>
 	</header>
 
-	<nav id="categorias" style="">
+	<nav id="categorias">
 		<ul>
 			<li><a href="index.php" class=""> Inicio</a></li>
 			<?php 
@@ -638,7 +815,6 @@
 
 
 	<?php 
-
 
 
 	 		if(isset($_GET["conf"])){
@@ -666,7 +842,7 @@
 		<div>
 				
 			<span>
-				<input type="text" name="caja_buscar" id="caja_buscar" placeholder="por nombre">
+				<input type="text" name="caja_buscar" id="caja_buscar" placeholder="buscar por nombre">
 			</span>
 
 			<span>
@@ -714,6 +890,20 @@
 
 
 	  ?>
+
+	  <style type="text/css">
+	  	
+			@keyframes categorias{
+
+
+				50%{
+					display: block;
+					background-color: #000;
+				}
+
+			}
+
+	  </style>
 
 </body>
 </html>
