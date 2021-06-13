@@ -46,7 +46,6 @@
 		}
 
 
-
 		section > div > form{
 			display: flex;
 			justify-content: center;
@@ -56,7 +55,16 @@
 			background-color: white;
 			display: flex;
 			justify-content: space-around;
+		}		
+		select {
+			width: 200px;
+			padding: 5px;
+
+			border:solid 1px #777;
+			background-color: #778;
+			color: white;
 		}
+
 
 		button{
 			width: 200px;
@@ -76,19 +84,14 @@
 		input{
 			width: 300px;
 			padding: 5px;
+			height: 25px;
 			margin: 10px 0px;
+			color: #444;
 		}
-		select {
-			width: 200px;
-			padding: 5px;
-
-			border:solid 1px #777;
-			background-color: #778;
-			color: white;
+		p{
+			color: #555;
 		}
-
-
-	/*	#enlaces{
+		#enlaces{
 
 			display: flex;
 			justify-content: center;
@@ -111,7 +114,7 @@
 			font-weight: bold;
 
 		}
-*/
+
 		.danger{
 			background-color: #b22;
 			color: white;
@@ -120,7 +123,6 @@
 			text-transform: uppercase;
 
 		}
-
 		#titulo{
 			padding: 20px 0px;
 		}
@@ -152,13 +154,13 @@
 			h2{
 				font-size: 1.1rem;
 			}
-			/*#enlaces > a{
+			#enlaces > a{
 
 
 				font-size: 0.9rem;
 				width: 180px;
 
-			}*/
+			}
 
 		}
 
@@ -172,19 +174,20 @@
 			h2{
 				font-size: 0.95rem;
 			}
-			/*#enlaces > a{
+			#enlaces > a{
 
 
 				font-size: 0.9rem;
 				width: 180px;
 
 			}
-*/
+
 			input{
 				width: 250px;
 			}
 
 		}
+
 	</style>
 </head>
 <body>
@@ -200,13 +203,11 @@
 
 	</div>
 
-
-
 	<section>
 		<div>
 				
 			<div>
-				<h2>Inserte sus datos para crear cuenta</h2>
+				<h2>Inserte sus datos</h2>
 			</div>
 
 			<form method="POST" action="procesar_creacion.php">
@@ -216,17 +217,31 @@
 				<input type="email" name="correo" placeholder="email">
 				<input type="password" name="contrasena" placeholder="contraseña">
 				<input type="text" name="direccion" placeholder="direccion">
+
+				
+				<p>Tipo de Usuario</p>
+				<br>
 				<select name="opcion_cuenta">
 					<option value="1">Comprador</option>
 					<option value="2">Vendedor</option>
 				</select>
-
+			
 				
 				<button type="submit" name="CC" class="fas fa-user"> Crear Cuenta</button>
 
 			</form>
 
 		</div>
+
+		 <div id="enlaces">
+		 	<div>
+		 		<h2>Otras Opciones...</h2>
+		 	</div>
+
+		 	<a href="iniciar_sesion.php" class="fas fa-user"> Iniciar Sesi&oacuten</a>
+	
+
+		 </div>
 
 	</section>
 	<div id="titulo">

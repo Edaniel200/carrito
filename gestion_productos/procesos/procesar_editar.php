@@ -2,12 +2,16 @@
 
 	require_once("../../gestiones_db/conexion.php");
 
+
+
 	$sql = "UPDATE productos SET ";
 	$contador = 0;
 	$comilla = false;
 	$val_array = array();
 
 	$imagen_name = $_FILES["imagen_edi"]["name"];
+	$tamano_imagen = $_FILES["imagen_edi"]["size"];
+	$imagen_tipo = $_FILES["imagen_edi"]["type"];
 
 	foreach ($_POST["datos"] as $key => $value) {
 
@@ -39,21 +43,25 @@
 		}
 
 	}
+	echo $sql;
 
 	if($contador > 4){
 
 		$sms = "Inserte al menos un datos a modificar";
+		$idsms = "smsDanger";
 
-		header("Location: editar.php?sms=" . $sms . "&id=" . $_POST['id']);
+		header("Location: editar.php?sms={$sms}&id={$_POST['id']}&idsms={$idsms}");
 		
 	}
 
-	if( $imagen_name != ''){
+	$img = false;
+	if( ($imagen_tipo == 'image/jpeg' || $imagen_tipo == 'image/jpg' || $imagen_tipo == 'image/png') && $tamano_imagen <= 10000000){
 
 
 		count($val_array) > 0?$sql .= ", DIRECCION_IMAGEN = :DIRECCION_IMAGEN":$sql .= "DIRECCION_IMAGEN = :DIRECCION_IMAGEN";
-
 		$val_array[":DIRECCION_IMAGEN"] = "img/" . $imagen_name;
+
+		$img = true;
 	}
 
 
@@ -67,27 +75,30 @@
 
 	$preper = $CNX->prepare($sql);
 	$preper->execute($val_array);
-	//echo $_SERVER["DOCUMENT_ROOT"] . "/carrito/img/" . $imagen_name;
 
-//echo $img_to_delete["DIRECCION_IMAGEN"];
 	if($preper->rowCount() > 0){
 
-		require_once("img_to_delete.php");
+		if($img){
 
-		unlink("../../" . $img_to_delete["DIRECCION_IMAGEN"]);
+			require_once("img_to_delete.php");
+			unlink("../../" . $img_to_delete["DIRECCION_IMAGEN"]);
+			move_uploaded_file($_FILES["imagen_edi"]["tmp_name"], "../../img" . $imagen_name);
 
-
-		move_uploaded_file($_FILES["imagen_edi"]["tmp_name"], "../../img/" . $imagen_name);
-
+		}
 
 		$sms = "Han habido cambios";
+		$idsms = "smsCheck";
 
 
-		header("Location: ../gestions/gestions.php?sms=" . $sms . "&id=" . $_POST['id']);
+		header("Location: ../index.php?sms={$sms}&idsms={$idsms}");
 	}else{
-		$sms = "no han habido cambios";
-		header("Location: editar.php?sms=" . $sms . "&id=" . $_POST['id']);
+		$sms = "El producto no podido ser editado";
+		$idsms = "smsDanger";
+
+		header("Location: editar.php?sms={$sms}&id={$_POST['id']}&idsms={$idsms}");
 	}
+
+
 
 
 

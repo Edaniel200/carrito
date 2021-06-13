@@ -1,5 +1,8 @@
 	<?php 
 		session_start();
+
+
+
 		require_once("../db/cnx.php");
 
 		$nombre_imagen = $_FILES['imagen']['name'];
@@ -7,57 +10,55 @@
 		$precio_p = $_POST["precio_p"];
 		$descripcion_p = $_POST["descripcion_p"];
 		$categoria_p = $_POST["categoria_p"];
-	
+		$imagen_tipo = $_FILES['imagen']['type'];
 
 
-		if($nombre_imagen != '' && $nombre_p != '' && $precio_p != '' && $descripcion_p != '' && $categoria_p != ''){
-
-
-
-			$sql = "INSERT INTO productos (NOMBRE, DESCRIPCION, PRECIO, DIRECCION_IMAGEN, CATEGORIA, ID_VENDEDOR) VALUES(?,?,?,?,?,?)";
-
-			$tipo_imagen = $_FILES["imagen"]["type"];
-			$temp_imagen = $_FILES["imagen"]["tmp_name"];
+		if($nombre_imagen != '' && $nombre_p != '' && $precio_p != '' && $nombre_p != '' ){
+			
 			$tamano_imagen = $_FILES["imagen"]["size"];
 
-			$dir_destino = "img/" . $nombre_imagen;
+			if( ($imagen_tipo == 'image/jpeg' || $imagen_tipo == 'image/jpg' || $imagen_tipo == 'image/png') && $tamano_imagen <= 10000000){
 
-			$preper = $CNX->prepare($sql);
+			//echo $tamano_imagen;
 
 
-			$ok = $preper->bind_param("ssissi", $nombre_p, $descripcion_p, $precio_p, $dir_destino, $categoria_p, $_SESSION["USFK"]);
-			$ok = $preper->execute();
+				$sql = "INSERT INTO productos (NOMBRE, DESCRIPCION, PRECIO, DIRECCION_IMAGEN, CATEGORIA, ID_VENDEDOR) VALUES(?,?,?,?,?,?)";
 
-			if($ok){
+				$tipo_imagen = $_FILES["imagen"]["type"];
+				$temp_imagen = $_FILES["imagen"]["tmp_name"];
 
-				$sms = "Agregado Correctamente";
+				$dir_destino = "img/" . $nombre_imagen;
 
-				move_uploaded_file($temp_imagen, "../../img/" . $nombre_imagen);
+				$preper = $CNX->prepare($sql);
 
-			}else{
-				$sms = "No se pudo Agregar";
+				$ok = $preper->bind_param("ssissi", $nombre_p, $descripcion_p, $precio_p, $dir_destino, $categoria_p, $_SESSION["USFK"]);
+				$ok = $preper->execute();
+
+				if($ok){
+
+					$sms = "Agregado Correctamente";
+					$idsms = "smsCheck";
+
+					move_uploaded_file($temp_imagen, "../../img/" . $nombre_imagen);
+
+				}else{
+					$sms = "No se pudo Agregar";
+					$idsms = "smsDanger";
+				}
+
+
 			}
-
-
-
-
-
-			//no se hara if para validar size
-			//tampoco si es un txt u otro archivo ya que es personal
-
 
 
 		}else{
 
 
-				$sms = "Inserte una imagen";
+				$sms = "Rellene todos los campos";
+				$idsms = "smsDanger";
 
 		}
 
-			header("Location: formulario_agregar.php?sms=" . $sms);
-
-
-
+		header("Location: formulario_agregar.php?sms={$sms}&idsms={$idsms}");
 
 
 	 ?>

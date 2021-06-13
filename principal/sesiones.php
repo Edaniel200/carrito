@@ -8,16 +8,19 @@
 		header("Location: gestiones/iniciar_sesion.php");
 
 
-
-
 	}else{
 
 		if(!$_SESSION["carUser"]){
 
 			$userSession = "		
-				<div id='sessionMessage'>
-					<p> Inicie sesión para gestionar pagos</p>
-					<a href='gestiones/iniciar_sesion.php'><button>Iniciar Sesión</button></a>
+				<div class='sessionMessage'>
+
+					<i class='fas fa-exclamation-triangle' style='color:#f55;'></i>
+
+					
+
+					<p><a href='gestiones/iniciar_sesion.php'>Iniciar Sesión</a>para gestionar pagos</p>
+						
 				</div>
 
 

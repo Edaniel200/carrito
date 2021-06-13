@@ -3,12 +3,19 @@
 
 	$_SESSION["carUser"] = false;
 
+	if(isset($_SESSION["fromAgg"])){
+
+		header("Location: cerrar_sesion.php");
+
+	}
+
 	if(isset($_COOKIE["US"]) && isset($_COOKIE["PASS"])){
 
 
 		header("Location:procesar_inicio_sesion.php");
 
 	}
+
 	if(isset($_SESSION["carSeller"])){
 
 		header("Location: ../gestion_productos/gestions/gestions.php");
@@ -271,6 +278,7 @@
 
 			 </div>
 		</section>
+		
 		<div id="titulo">
 
 			<h1>STORE</h1>

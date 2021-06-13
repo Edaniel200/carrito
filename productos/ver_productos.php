@@ -6,7 +6,7 @@
 	$contenido = "";
 	$categorias_nav = "";
 
-	$categorias = new SELECT_QUERY($CNX, "-", "SELECT DISTINCT(CATEGORIA) FROM productos WHERE CATEGORIA != :CAT");
+	$categorias = new SELECT_QUERY($CNX, " ", "SELECT DISTINCT(CATEGORIA) FROM productos WHERE CATEGORIA != :CAT");
 	$categorias->executeByCategory();
 	$record_c = $categorias->getRecords();
 
@@ -21,19 +21,48 @@
 	if(isset($_GET["VPU"])){
 
 
-		$ver = new SELECT_QUERY($CNX, $_GET["VPU"], "SELECT productos.NOMBRE as NOMBRE_PRODUCTO, productos.PRECIO AS PRECIO, productos.DIRECCION_IMAGEN AS DIRECCION_IMAGEN, productos.DESCRIPCION,productos.ID AS ID, vendedores_carrito.NOMBRE AS VENDEDOR FROM productos INNER JOIN vendedores_carrito on productos.ID_VENDEDOR = vendedores_carrito.ID WHERE productos.ID = :ID");
+		$ver = new SELECT_QUERY($CNX, $_GET["VPU"], "SELECT productos.NOMBRE as NOMBRE_PRODUCTO, productos.PRECIO AS PRECIO, productos.DIRECCION_IMAGEN AS DIRECCION_IMAGEN, productos.DESCRIPCION,productos.ID AS ID, vendedores_carrito.NOMBRE AS VENDEDOR, vendedores_carrito.APELLIDOS FROM productos INNER JOIN vendedores_carrito on productos.ID_VENDEDOR = vendedores_carrito.ID WHERE productos.ID = :ID");
 
 		$ver->executeById();
 		$record = $ver->getRecords();
+
+			$partCotenido = "<span style='color:#bbb;' onclick='addProductToFavoriteList(this, {$record[0]["ID"]});' class='fas fa-heart' title='agregar a lista de deseos'></span>";
+
+			if(isset($_COOKIE['LISTA_DESEO'])){
+
+				$cookieFavoriteList = json_decode($_COOKIE['LISTA_DESEO']);
+				foreach($cookieFavoriteList as $val){
+					if($val->id == $record[0]["ID"]){
+
+					 $partCotenido = "<span style='color:#c55;' onclick='removeProductFromCookie(this, {$record[0]["ID"]});' class='fas fa-heart' title='quitar de lista de deseos'></span>";
+
+					}
+				}
+
+			}
 		
 
 			$contenido = "<div class='vpu_products'> 
+				<p class='precio'>Precio: ".$record[0]["PRECIO"]."€</p>
 
-				<p class='nombre'>" . $record[0]["NOMBRE_PRODUCTO"] . "<p> 
-				<div id='content_img'><img src='".$record[0]["DIRECCION_IMAGEN"]."'></div> 	
-				<div id='content_img'><p> Vendedor: " . $record[0]["VENDEDOR"] . "</p></div> 
-				<p class='descripcion'>Descripción: ".$record[0]["DESCRIPCION"]."</p> <p>Precio: ".$record[0]["PRECIO"]."€</p>
-				<p><a href='index.php?IPC&ID=".$record[0]["ID"]."'><button>Añadir a cesta</button></a></p>
+				<div>
+					<p class='nombre'>" . $record[0]["NOMBRE_PRODUCTO"] . "</p>
+					 {$partCotenido}
+				 </div>
+
+				<div class='content_img'>
+					<img src='".$record[0]["DIRECCION_IMAGEN"]."'>
+				</div>
+
+				<div>
+					<p class='vendedor'> <strong>Vendedor</strong>: {$record[0]["VENDEDOR"]} {$record[0]["APELLIDOS"]}</p>
+				</div> 
+
+				<p class='descripcion'><strong>Descripción</strong> : </br></br>".$record[0]["DESCRIPCION"]."</p> 
+
+				<p>
+					<a href='index.php?IPC&ID=".$record[0]["ID"]."'><button> <i class='fas fa-cart-plus'></i> Añadir a cesta</button></a>
+				</p>
 
 			<div>" ;
 
@@ -113,27 +142,68 @@
 
 		for($i = 0; $i < count($record_p_c); $i++){
 
-
 			$contenido .= "<div class='products'>
 
-
 					<div>
-						<a href='index.php?VPU=".$record_p_c[$i]['ID']."'>
-
-							<img src='".$record_p_c[$i]["DIRECCION_IMAGEN"]."' alt='" . $record_p_c[$i]["NOMBRE"] . "' title='" . $record_p_c[$i]["NOMBRE"] . "'>
-						</a>
+						 <p><span> {$record_p_c[$i]['PRECIO']}€</span></p> <p class='nombre'> {$record_p_c[$i]['NOMBRE']} </p>
 					</div>
 
-						<p>" . $record_p_c[$i]['NOMBRE'] . "</p>
-
+					<div>
+						<a  title='{$record_p_c[$i]['NOMBRE']}' href='index.php?VPU={$record_p_c[$i]['ID']}'><img alt='{$record_p_c[$i]["DESCRIPCION"]}' src='{$record_p_c[$i]["DIRECCION_IMAGEN"]}'></a>
+					</div>
+					<div class='div_opciones'>	
+						<a href='index.php?IPC&ID={$record_p_c[$i]["ID"]}'><button>Añadir a cesta</button></a>
+					</div>
 
 				</div>";
+
 
 
 		}
 
 
 
+
+	}else if(isset($_GET["EP"])){
+
+		$arr = array();
+		print_r(json_decode($_COOKIE["ID_PRODUCTO"]));
+
+		echo "</br></br>";
+
+		print_r($_COOKIE["ID_PRODUCTO"]);
+
+		$cook = json_decode($_COOKIE["ID_PRODUCTO"]);
+
+		for($i = 0; $i < count($cook); $i++){
+
+			if($_GET["ID"] != $cook[$i]->ID){
+				
+				array_push($arr, $cook[$i]);
+
+			}
+
+		}
+
+
+		echo "</br></br>";
+
+		print_r(json_encode($arr));
+
+
+		count($arr) > 0 ? setcookie("ID_PRODUCTO", json_encode($arr), time() + 30 * 24 * 60 * 60) : setcookie("ID_PRODUCTO", "", time() -1);
+
+		
+
+
+		header("Location: index.php?carrito");
+
+
+
+
+	}else if(isset($_GET["LD"])){
+
+		include("productos/lista_deseos.php");
 
 	}else{
 
@@ -151,9 +221,16 @@
 
 			$contenido .= "<div class='products'>
 
-					<div><a href='index.php?VPU=".$record_p[$i]['ID']."'><img src='".$record_p[$i]["DIRECCION_IMAGEN"]."'></a></div>
-					<p class='nombre'>" . $record_p[$i]['NOMBRE'] . " " . $record_p[$i]['PRECIO'] .  "€</p>
+					<div>
+						 <p><span> {$record_p[$i]['PRECIO']}€</span></p> <p class='nombre'> {$record_p[$i]['NOMBRE']} </p>
+					</div>
 
+					<div>
+						<a  title='{$record_p[$i]['NOMBRE']}' href='index.php?VPU={$record_p[$i]['ID']}'><img alt='{$record_p[$i]["DESCRIPCION"]}' src='{$record_p[$i]["DIRECCION_IMAGEN"]}'></a>
+					</div>
+					<div class='div_opciones'>	
+						<a href='index.php?IPC&ID={$record_p[$i]["ID"]}'><button><i class='fas fa-cart-plus'></i> Añadir a cesta</button></a>
+					</div>
 
 				</div>";
 

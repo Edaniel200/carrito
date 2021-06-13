@@ -84,11 +84,11 @@
 				}else{
 
 					$_SESSION["carSeller"] = true;
+					$_SESSION["USFK"] = $id;
 				}
 
 
 				$_SESSION["US"] = $us;
-				$_SESSION["USFK"] = $id;
 
 				header("Location:" . $data["location"]);
 
@@ -131,7 +131,7 @@
 			}else{
 
 				$tabla = "vendedores_carrito";
-				$location = "../gestion_productos/gestions/gestions.php";
+				$location = "../gestion_productos/";
 				$tab = 2;
 
 			}

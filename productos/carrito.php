@@ -4,7 +4,7 @@
 	if(isset($_COOKIE["ID_PRODUCTO"])){
 
 		$cookie =json_decode($_COOKIE["ID_PRODUCTO"]);
-
+		//print_r($cookie);
 		$ver_carrito = new SELECT_QUERY($CNX, 0, "SELECT * FROM productos WHERE ID != :ID");
 		$ver_carrito->executeById();
 		$todos_p = $ver_carrito->getRecords();
@@ -36,9 +36,26 @@
 
 						<div>
 
-							<p>Precio:	".$todos_p[$i]["PRECIO"]." €</p>
-							<p>Cantidad:	".$cookie[$j]->CANTIDAD."</p>
-							<p><a href='index.php?EP&ID=".$todos_p[$i]["ID"]."'><button>Elimiar</button></a></p>
+							<p>Precio: <span id='{$todos_p[$i]["ID"]}p'>{$todos_p[$i]["PRECIO"]}</span>€</p>
+							<p>Cantidad: <span id='{$todos_p[$i]["ID"]}c'>{$cookie[$j]->CANTIDAD}</span></p>
+							<p><a href='index.php?EP&ID={$todos_p[$i]["ID"]}'><button>Elimiar</button></a></p>
+							<p class='counters'>
+
+								<span onclick='updateCookie({$todos_p[$i]["ID"]},\"+\", this);' class='fas fa-chevron-up' id='{$todos_p[$i]["ID"]}-1'></span>
+								";
+
+								if($cookie[$j]->CANTIDAD == 1){
+
+									$contenido .= "<span class='fas fa-trash' id='{$todos_p[$i]["ID"]}-2' onclick='location.assign(\"index.php?EP&ID={$todos_p[$i]["ID"]}\")'></span>";
+
+								}else{
+
+										$contenido .= "<span onclick='updateCookie({$todos_p[$i]["ID"]},\"-\", this);' class='fas fa-chevron-down' id='{$todos_p[$i]["ID"]}-2'></span>";
+								}
+
+
+
+							$contenido .= "</p>
 
 						</div>
 					</div>";
@@ -49,8 +66,7 @@
 		}
 		$datos = json_encode($datos);
 		$tramite = "<div id='tramite'>
-			<h3>Total a pagar:	".$total_pago ." €</h3>
-			<a href='index.php?tramite&datos=".$datos."'><button>Tramitar pago</button></a>
+			<a href='index.php?tramite&datos=".$datos."'><i class='fas fa-money-bill'></i> Tramitar pago de <span id='buy'>{$total_pago}</span>€</a>
 		</div>";
 
 	}else{
